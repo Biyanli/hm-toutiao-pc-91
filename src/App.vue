@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    App com
+    <!-- 一级路由组件显示位置 -->
+  <router-view></router-view>
   </div>
 </template>
 
 <script>
-export default {
-}
+export default {}
 </script>
 
 <style lang="less" scoped>
