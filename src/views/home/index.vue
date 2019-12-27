@@ -49,15 +49,15 @@
         <span class="icon el-icon-s-fold" @click="toggleAside()"></span>
         <span class="text">江苏传智播客科技教育有限公司</span>
         <!-- 下拉菜单组件 -->
-        <el-dropdown class="my-dropdown">
+        <el-dropdown class="my-dropdown" @command="handler">
           <span class="el-dropdown-link">
-            <img class="avatar" src="../../assets/avatar.jpg" alt />
-            <span class="name">用户名称</span>
+            <img class="avatar" :src="photo" alt />
+            <span class="name">{{name}}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting" command="setting">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -70,18 +70,43 @@
 </template>
 
 <script>
+import store from '@/store'
 export default {
   data () {
     return {
       // 表示左菜单是展开还是收起
-      isCollapse: false
+      isCollapse: false,
+      // 用户名
+      name: '',
+      // 用户头像
+      photo: ''
     }
+  },
+  created () {
+    const user = store.getUser()
+    this.name = user.name
+    this.photo = user.photo
   },
   methods: {
     toggleAside () {
       // 切换左菜单
       // 宽度 logo 导航菜单组件
       this.isCollapse = !this.isCollapse
+    },
+    // 去个人设置
+    setting () {
+      this.$router.push('/setting')
+    },
+    // 去退出登录
+    logout () {
+      store.delUser()
+      this.$router.push('/login')
+    },
+    // 处理指令的函数
+    handler (command) {
+      // command 值 setting \ logout
+      // setting 跳转 个人设置 ; logout 跳转登录页面
+      this[command]()
     }
   }
 }

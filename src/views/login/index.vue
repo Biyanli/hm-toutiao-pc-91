@@ -22,6 +22,7 @@
 
 <script>
 import store from '@/store'
+// import { async } from 'q'
 export default {
   data () {
     // 校验手机号的函数
@@ -34,7 +35,7 @@ export default {
     }
     return {
       loginForm: {
-        mobile: '139111111111',
+        mobile: '13911111111',
         code: '246810'
       },
       LoginRules: {
@@ -52,22 +53,31 @@ export default {
   },
   methods: {
     login () {
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate(async (valid) => {
         // valid判断是否校验成功
         if (valid) {
-          this.$http.post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.loginForm)
-            .then(res => {
-              // 登录成功
-              // res 是响应对象 res.data是响应主体
-              // 存储用户信息
-              store.setUser(res.data.data)
-              // 直接跳转首页
-              this.$router.push('/')
-            }).catch(e => {
-              // 登录失败
-              // e 错误对象
-              this.$message.error('手机号或验证码错误')
-            })
+          // this.$http.post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.loginForm)
+          //   .then(res => {
+          //     // 登录成功
+          //     // res 是响应对象 res.data是响应主体
+          //     // 存储用户信息
+          //     store.setUser(res.data.data)
+          //     // 直接跳转首页
+          //     this.$router.push('/')
+          //   }).catch(e => {
+          //     // 登录失败
+          //     // e 错误对象
+          //     this.$message.error('手机号或验证码错误')
+          //   })
+
+          // 使用try{}catch(e){}可以捕获和处理异常
+          try {
+            const res = await this.$http.post('authorizations', this.loginForm)
+            store.setUser(res.data.data)
+            this.$router.push('/')
+          } catch (e) {
+            this.$message.error('手机号或验证码错误')
+          }
         }
       })
     }
