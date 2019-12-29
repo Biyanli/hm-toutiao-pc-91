@@ -5,7 +5,7 @@
       <div class="logo" :class="{minLogo : isCollapse}"></div>
       <!-- 菜单 -->
       <el-menu
-        :default-active="$router.path"
+        :default-active="$route.path"
         class="el-menu-vertical-demo"
         background-color="#002033"
         text-color="#fff"
