@@ -17,9 +17,10 @@ const router = new VueRouter({
       component: Home,
       children: [
       // 欢迎页面
-        { path: '/', component: Welcome }
+        { path: '/', component: Welcome },
+        { path: '/article', component: Article }
       ] },
-    { path: '/article', component: Article },
+
     // 通配以上规则没有的地址
     { path: '*', component: NotFound }
   ]

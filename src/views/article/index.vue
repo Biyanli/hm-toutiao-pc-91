@@ -20,20 +20,9 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道：">
-          <el-select
-            v-model="filterParams.channel_id"
-            @change="changeChannel()"
-            clearable
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in channelOptions"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-              clearable
-            ></el-option>
-          </el-select>
+          <!-- 封装自己的频道组件 -->
+          <!-- <my-channel :value="filterParams.channel_id" @input="filterParams.channel_id=$event"></my-channel> -->
+          <my-channel v-model="filterParams.channel_id"></my-channel>
         </el-form-item>
         <el-form-item label="日期：">
           <el-date-picker
@@ -124,17 +113,17 @@ export default {
         page: 1,
         per_page: 20
       },
-      //   频道选项
-      channelOptions: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        },
-        {
-          value: '选项2',
-          label: '双皮奶'
-        }
-      ],
+      // //   频道选项
+      // channelOptions: [
+      //   {
+      //     value: '选项1',
+      //     label: '黄金糕'
+      //   },
+      //   {
+      //     value: '选项2',
+      //     label: '双皮奶'
+      //   }
+      // ],
       //   日期选择后的数组[起始日期,结束日期]
       dateArr: [],
       articles: [],
@@ -143,7 +132,7 @@ export default {
     }
   },
   created () {
-    this.getChannelOptions()
+    // this.getChannelOptions()
     this.getArticles()
   },
   methods: {
@@ -159,14 +148,6 @@ export default {
       } catch (e) {
         this.$message.error('删除失败')
       }
-    },
-    async getChannelOptions () {
-      // 原始数据：res = {data:{message:'',data:{channel:[]}}}
-      // 按照结构去解构赋值
-      const {
-        data: { data }
-      } = await this.$http.get('channels')
-      this.channelOptions = data.channels
     },
     // 获取文章列表数据
     async getArticles () {
@@ -198,9 +179,6 @@ export default {
         this.filterParams.begin_pubdate = null
         this.filterParams.end_pubdate = null
       }
-    },
-    changeChannel () {
-      if (this.filterParams.channel_id === '') { this.filterParams.channel_id = null }
     }
   }
 }
