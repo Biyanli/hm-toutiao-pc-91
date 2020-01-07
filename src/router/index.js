@@ -6,6 +6,8 @@ import Home from '@/views/home'
 import Welcome from '@/views/welcome'
 import NotFound from '@/views/404'
 import Article from '@/views/article'
+import Image from '@/views/image'
+import Publish from '@/views/publish'
 
 Vue.use(VueRouter)
 
@@ -18,7 +20,12 @@ const router = new VueRouter({
       children: [
       // 欢迎页面
         { path: '/', component: Welcome },
-        { path: '/article', component: Article }
+        // 内容管理
+        { path: '/article', component: Article },
+        // 素材管理
+        { path: '/image', component: Image },
+        // 发布文章
+        { path: '/pubilsh', component: Publish }
       ] },
 
     // 通配以上规则没有的地址
